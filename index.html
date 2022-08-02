@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{padding :0; margin:0; box-sizing: border-box;}
+        body{
+            background: rgb(255, 255, 255);
+        }
+        .main{
+            width: 100%;
+            position: relative;
+            top:8em         
+        }
+        .container{
+            text-align: center;
+            font-family: 'Comfortaa', cursive;
+        }
+        .container h2{
+            font-size: 22px;
+            width: 75%;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+        .container h1{
+            color: #a600ff;
+        } 
+        textarea{
+            outline: none;
+            resize: none;
+            overflow: auto;
+            border: 4px solid #ffdf00;
+            margin-top: 0px;
+            box-shadow: -14px 16px 20px 0px rgb(0 0 0 / 41%);
+            border-radius: 22px;
+            padding: 18px;
+            font-size: 20px;
+            background: black;
+            margin: 20px;
+            color: #ffffff;
+        }
+        #btn{
+            background-color: #ffd600;
+            border-radius: 30px;
+            border: none;
+            color: #000;
+            padding: 12px 35px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            transition: 0.5s ease;
+            cursor: pointer;
+            box-shadow: -5px 9px 20px 0px rgb(0 0 0 / 41%);
+        }
+        #btn:hover{
+            background-color: #000;
+            color: #ffffff;
+        }
+    </style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+    <div class="main">
+        <div class="container">
+            <h1>
+                Typing Speed tester
+            </h1>
+            <br>
+            <h2 id="msg"></h2>
+            <br>
+            <textarea name="type" id="textbox" cols="100" rows="10" placeholder="Click on start and type text displayed above"></textarea>
+            <br>
+            <button id="btn" class="btn"> START</button>
+        </div>
+    </div>
+
+
+<script>
+    const sentence =[ "Web 3.0 is the third generation of the evolution of web technologies","The web also known as the World Wide Web is the foundational layer for how the internet is used", "providing website and application servicesWeb 3.0 is still evolving and being defined", "and as such there isnt a canonical universally accepted definition What is clear though is that Web 3.0 will have a strong emphasis", "on decentralized applications and make extensive use of blockchain-based technologies", "Web 3.0 will also make use of machine learning and artificial intelligence to help empower more intelligent and adaptive applications"];
+
+    const tarea = document.querySelector('#textbox');
+    const text = document.querySelector('#msg');
+    const butt = document.querySelector('#btn');
+    let starttime,endtime;
+
+    let playgame = () => {
+        let randomno = Math.floor(Math.random()*sentence.length);
+        text.innerHTML = sentence[randomno];
+        let date = new Date();
+        starttime=date.getTime();
+        butt.innerText="STOP";
+        tarea.placeholder = "Write here above paragraph";
+        text.style.color = "#000";
+        tarea.value="";
+
+    }
+
+    let endplay = () =>{
+        let date = new Date();
+        endtime = date.getTime();
+        let totaltime = ((endtime - starttime)/1000);
+        let totalstr = tarea.value;
+        let wordcount = counter(totalstr);
+        let speed = Math.round((wordcount/totaltime)*60);
+        let fmsg = `You typed total words at ${speed} words per minute `;
+        fmsg += comparewords((text.innerText),totalstr);
+        text.innerText = fmsg;
+        tarea.placeholder = "Task Ended";
+        text.style.color = "red";
+    }
+
+    const comparewords = (str1,str2) =>{
+        let word1 = str1.split(" ");
+        let word2 = str2.split(" ");
+        let ctt = 0;
+        let wrr = 0;
+        let wrrwords="";
+        word1.forEach(function (item, index){
+            if(item == word2[index]){
+                ctt++;
+            }
+            else{
+                wrr++;
+                items =  item + "| ";
+                wrrwords = wrrwords + items;
+            }
+        })
+        console.log(wrrwords);
+        return `${ctt} correct out of ${word1.length} words, wrong no of error are : ${wrr} 
+        and wrong words are ${wrrwords}`;
+    }
+
+    const counter = (str) => {
+        let response = str.split(" ").length;
+        return response;
+    }
+    butt.addEventListener('click',()=> {
+        if(butt.innerText == 'START')
+        {
+            tarea.disabled = false;
+            playgame();
+        }else if(butt.innerText="STOP"){
+            tarea.disabled= true;
+            butt.innerText="START";
+            endplay();
+        };})
+
+    tarea.disabled=true;
+
+</script>
+
+
+</body>
+</html>
